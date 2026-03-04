@@ -1,0 +1,71 @@
+🔹 Language & Readability 73. Page language not defined 74. Mixed language
+without lang attribute 75. Complex technical language 76. Abbreviation without
+expansion 77. Reading level too complex
+
+<!-- 73. Page language not defined -->
+<!-- ❌ Bad: No lang attribute on <html> -->
+<!doctype html>
+<html>
+  <head>
+    <title>Example Page</title>
+  </head>
+  <body>
+    <p>Hello!</p>
+  </body>
+</html>
+
+<!-- ✅ Right: lang attribute set for correct language -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Example Page</title>
+  </head>
+  <body>
+    <p>Hello!</p>
+  </body>
+</html>
+
+<!-- 74. Mixed language without lang attribute -->
+<!-- ❌ Bad: Mixed language text but no language specified -->
+<p>Hello! こんにちは！</p>
+
+<!-- ✅ Right: Use lang attribute when switching languages -->
+<p>Hello! <span lang="ja">こんにちは！</span></p>
+
+<!-- 75. Complex technical language -->
+<!-- ❌ Bad: Complex jargon with no explanation -->
+<p>
+  Please update the YAML config and redeploy the containerized microservice for
+  optimal CI/CD performance.
+</p>
+
+<!-- ✅ Right: Use plain language or explain terms -->
+<p>
+  Please update the configuration file (in YAML format), then restart the
+  service so changes take effect. <br />
+  (If you need help, contact IT support.)
+</p>
+
+<!-- 76. Abbreviation without expansion -->
+<!-- ❌ Bad: Abbreviation used, not expanded -->
+<p>Please RSVP by EOD.</p>
+
+<!-- ✅ Right: Expand abbreviation or use <abbr> with title -->
+<p>
+  Please <abbr title="Répondez s'il vous plaît (Please reply)">RSVP</abbr> by
+  <abbr title="End of Day">EOD</abbr>.
+</p>
+
+<!-- 77. Reading level too complex -->
+<!-- ❌ Bad: Unnecessarily complex sentence structure -->
+<p>
+  The proliferation of interconnected networked devices necessitates
+  comprehensive authentication protocols in order to mitigate unauthorized data
+  exfiltration.
+</p>
+
+<!-- ✅ Right: Use clear, easy-to-read language -->
+<p>
+  To keep your information safe, always use secure passwords when using
+  connected devices.
+</p>

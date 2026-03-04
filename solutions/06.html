@@ -1,0 +1,110 @@
+🔹 Timing Issues 41. Session timeout without warning 42. Auto refresh without
+user control 43. Carousel auto-rotate without pause 44. Time-limited quiz
+without extend option
+
+<!-- 41. Session timeout without warning -->
+<!-- ❌ Bad: User is logged out or session expires with no alert or chance to extend -->
+<!-- (Simulation: just a note, actual demo requires server) -->
+<p>Your session has expired. Please log in again.</p>
+
+<!-- ✅ Right: Warn users before timeout, allow extension -->
+<!--
+  In production: use JS timers and modal dialogs.
+  Example below is conceptual.
+-->
+<div
+  id="timeout-warning"
+  style="
+    display: none;
+    border: 1px solid #f5a623;
+    padding: 1rem;
+    background: #fffbe7;
+  "
+>
+  <p role="alert">
+    You will be signed out in <span id="timeout-counter">2</span> minutes due to
+    inactivity.
+  </p>
+  <button onclick="extendSession()">Stay Signed In</button>
+</div>
+<script>
+  // Conceptual: Show warning and let user extend
+  // In real code, this would be handled via server + JS timers.
+  // Here's a demo for illustration:
+  setTimeout(function () {
+    document.getElementById("timeout-warning").style.display = "block";
+  }, 2000);
+  function extendSession() {
+    alert("Session extended!");
+    document.getElementById("timeout-warning").style.display = "none";
+  }
+</script>
+
+<!-- 42. Auto refresh without user control -->
+<!-- ❌ Bad: Page refreshes or reloads automatically, disrupting users -->
+<meta http-equiv="refresh" content="10" />
+<p>The page will refresh every 10 seconds.</p>
+
+<!-- ✅ Right: No unexpected auto-refresh, or provide a control -->
+<p>
+  The page will not refresh automatically.
+  <button onclick="location.reload()">Refresh Now</button>
+</p>
+
+<!-- 43. Carousel auto-rotate without pause -->
+<!-- ❌ Bad: Carousel changes slides automatically with no pause option -->
+<div>
+  <p>Image Carousel (auto-rotates every 3 seconds, no pause)</p>
+  <!-- No controls provided -->
+</div>
+
+<!-- ✅ Right: Carousel with pause/play and manual controls -->
+<div>
+  <p>Image Carousel</p>
+  <button
+    aria-pressed="false"
+    id="pause-play"
+    onclick="
+      var btn = this;
+      if (btn.getAttribute('aria-pressed') === 'false') {
+        btn.setAttribute('aria-pressed', 'true');
+        btn.textContent = 'Play';
+        // Stop carousel rotation logic here
+      } else {
+        btn.setAttribute('aria-pressed', 'false');
+        btn.textContent = 'Pause';
+        // Start carousel rotation logic here
+      }
+    "
+  >
+    Pause
+  </button>
+  <!-- Also provide next/previous controls -->
+  <button aria-label="Previous slide">Previous</button>
+  <button aria-label="Next slide">Next</button>
+</div>
+
+<!-- 44. Time-limited quiz without extend option -->
+<!-- ❌ Bad: Time-limited form/quiz with no way to extend or turn off timer -->
+<form>
+  <p>You have 1 minute to complete this quiz.</p>
+  <!-- No option to extend or disable timer -->
+  <input type="text" placeholder="Answer" />
+  <button>Submit</button>
+</form>
+
+<!-- ✅ Right: Allow pause/extend, or at least warn users -->
+<form>
+  <p>
+    You have 1 minute to complete this quiz.
+    <button type="button" onclick="extendQuizTime()">Request More Time</button>
+  </p>
+  <input type="text" placeholder="Answer" />
+  <button>Submit</button>
+</form>
+<script>
+  function extendQuizTime() {
+    alert("More time granted!");
+    // Logic to extend timer goes here
+  }
+</script>

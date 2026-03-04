@@ -1,0 +1,71 @@
+🔹 Pointer & Touch Issues 56. Small touch target 57. Gesture-only interaction
+58. No alternative for swipe/drag 59. Hover required for important content
+
+<!-- 56. Small touch target -->
+<!-- ❌ Bad: Buttons/tap areas are too small for touch users -->
+<button style="width: 20px; height: 20px">X</button>
+
+<!-- ✅ Right: Make tap targets large enough for comfortable touch -->
+<button style="width: 44px; height: 44px">Close</button>
+
+<!-- 57. Gesture-only interaction -->
+<!-- ❌ Bad: Feature only accessible by swipe/gesture -->
+<div style="width: 200px; height: 100px; background: #eee">
+  Swipe left to delete
+</div>
+
+<!-- ✅ Right: Provide button for same action -->
+<div
+  style="
+    width: 200px;
+    height: 100px;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  "
+>
+  <span>Item</span>
+  <button>Delete</button>
+</div>
+
+<!-- 58. No alternative for swipe/drag -->
+<!-- ❌ Bad: Carousel only moves by dragging/swiping -->
+<div>
+  <div style="overflow-x: scroll; white-space: nowrap">
+    <!-- Images/items here; navigation only by swipe/drag -->
+    <img src="/img1.jpg" style="width: 200px; display: inline-block" />
+    <img src="/img2.jpg" style="width: 200px; display: inline-block" />
+  </div>
+</div>
+
+<!-- ✅ Right: Offer accessible navigation controls -->
+<div>
+  <div style="overflow-x: scroll; white-space: nowrap">
+    <img src="/img1.jpg" style="width: 200px; display: inline-block" />
+    <img src="/img2.jpg" style="width: 200px; display: inline-block" />
+  </div>
+  <nav aria-label="Carousel navigation">
+    <button aria-label="Previous slide">Previous</button>
+    <button aria-label="Next slide">Next</button>
+  </nav>
+</div>
+
+<!-- 59. Hover required for important content -->
+<!-- ❌ Bad: Info only shows on hover, inaccessible to touch/keyboard users -->
+<p>
+  Product price:
+  <span
+    style="text-decoration: underline; cursor: help"
+    title="Only visible on hover"
+    >$10 <span style="display: none">Sale</span></span
+  >
+</p>
+
+<!-- ✅ Right: Important info always visible or available on focus/touch -->
+<p>
+  Product price:
+  <span style="font-weight: bold"
+    >$10 <span style="color: red">Sale</span></span
+  >
+</p>

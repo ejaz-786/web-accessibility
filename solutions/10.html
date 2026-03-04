@@ -1,0 +1,219 @@
+🔹 Form Issues 60. Missing label 61. Placeholder used as label 62. Label not
+associated with input 63. Required field not indicated 64. Error message not
+linked to field 65. Error not descriptive 66. Error not announced (no aria-live)
+67. No input instructions 68. Validation only on color 69. Autocomplete not
+defined 70. Field format not specified 71. CAPTCHA without help 72. Multiple
+labels for same input
+
+<!-- 60. Missing label -->
+<!-- ❌ Bad: Input field without a label -->
+<input type="text" name="name" />
+
+<!-- ✅ Right: Input field with a visible label -->
+<label for="name">Name:</label>
+<input type="text" id="name" name="name" />
+
+<!-- 61. Placeholder used as label -->
+<!-- ❌ Bad: Placeholder is used instead of a label -->
+<input type="email" placeholder="Email" />
+
+<!-- ✅ Right: Input has a label, placeholder is only a hint -->
+<label for="email">Email:</label>
+<input
+  type="email"
+  id="email"
+  name="email"
+  placeholder="e.g. user@example.com"
+/>
+
+<!-- 62. Label not associated with input -->
+<!-- ❌ Bad: Label is present but not linked to input -->
+<label>Email</label>
+<input type="email" name="email" />
+
+<!-- ✅ Right: Label is properly associated via 'for' and 'id' -->
+<label for="associated-email">Email:</label>
+<input type="email" id="associated-email" name="email" />
+
+<!-- 63. Required field not indicated -->
+<!-- ❌ Bad: Required input is not marked as required -->
+<label for="required-name">Name:</label>
+<input type="text" id="required-name" name="name" required />
+
+<!-- ✅ Right: Required field clearly indicated to users -->
+<label for="required-name-2"
+  >Name: <span aria-hidden="true" style="color: red">*</span>
+  <span class="sr-only">(required)</span></label
+>
+<input type="text" id="required-name-2" name="name" required />
+
+<!-- 64. Error message not linked to field -->
+<!-- ❌ Bad: Error is shown, but not programmatically linked to input -->
+<label for="username">Username:</label>
+<input type="text" id="username" name="username" />
+<div style="color: red">Username is required</div>
+
+<!-- ✅ Right: Error message is connected using aria-describedby -->
+<label for="username2">Username:</label>
+<input
+  type="text"
+  id="username2"
+  name="username"
+  aria-describedby="username2-error"
+/>
+<div id="username2-error" style="color: red">Username is required</div>
+
+<!-- 65. Error not descriptive -->
+<!-- ❌ Bad: Error message is vague or not meaningful -->
+<div style="color: red">Error!</div>
+
+<!-- ✅ Right: Error message describes exactly what is wrong -->
+<div style="color: red">
+  Password must be at least 8 characters and include a number.
+</div>
+
+<!-- 66. Error not announced (no aria-live) -->
+<!-- ❌ Bad: Error changes but assistive tech is not informed -->
+<div style="color: red">This field is required</div>
+
+<!-- ✅ Right: Error message has aria-live so screen readers announce it -->
+<div aria-live="polite" style="color: red">This field is required</div>
+
+<!-- 67. No input instructions -->
+<!-- ❌ Bad: No info on required format or expectations -->
+<label for="phone">Phone number:</label>
+<input type="tel" id="phone" name="phone" />
+
+<!-- ✅ Right: Instructions provided for user clarity -->
+<label for="phone2">Phone number:</label>
+<input type="tel" id="phone2" name="phone" aria-describedby="phone2-help" />
+<div id="phone2-help">Enter your 10-digit phone number, numbers only.</div>
+
+<!-- 68. Validation only on color -->
+<!-- ❌ Bad: Invalid input only indicated by color (not accessible to colorblind users) -->
+<input style="border: 1px solid red" aria-invalid="true" />
+
+<!-- ✅ Right: Use icons or text/symbols in addition to color -->
+<input style="border: 1px solid red" aria-invalid="true" />
+<span role="img" aria-label="Error" style="color: red">❗</span>
+<span style="color: red">Please enter a valid value.</span>
+
+<!-- 69. Autocomplete not defined -->
+<!-- ❌ Bad: No autocomplete attribute (browsers can't help users fill out) -->
+<input type="email" name="user-email" />
+
+<!-- ✅ Right: Proper autocomplete attribute for faster filling -->
+<input type="email" name="user-email" autocomplete="email" />
+
+<!-- 70. Field format not specified -->
+<!-- ❌ Bad: Field expects data in a certain format, but doesn't say so -->
+<label for="dob">Date of birth:</label>
+<input type="text" id="dob" name="dob" />
+
+<!-- ✅ Right: Format is specified to help users enter correct info -->
+<label for="dob2">Date of birth (DD/MM/YYYY):</label>
+<input
+  type="text"
+  id="dob2"
+  name="dob"
+  pattern="\d{2}/\d{2}/\d{4}"
+  aria-describedby="dob2-format"
+/>
+<div id="dob2-format">Please enter date in DD/MM/YYYY format.</div>
+
+<!-- 71. CAPTCHA without help -->
+<!-- ❌ Bad: CAPTCHA is present but has no explanation/help -->
+<label for="captcha">Enter the code:</label>
+<input type="text" id="captcha" name="captcha" />
+<img src="/captcha.jpg" alt="" />
+
+<!-- ✅ Right: CAPTCHA comes with clear instructions and accessibility info -->
+<label for="captcha2">Enter the characters shown:</label>
+<img src="/captcha.jpg" alt="CAPTCHA: the characters S 4 D 8" />
+<input
+  type="text"
+  id="captcha2"
+  name="captcha"
+  aria-describedby="captcha2-help"
+/>
+<div id="captcha2-help">
+  If you can't read the image, <a href="/alternative">try an audio CAPTCHA</a>.
+</div>
+
+<!-- 72. Multiple labels for same input -->
+<!-- ❌ Bad: More than one label is associated with the same input, creating confusion -->
+<label for="multi1">First Name</label>
+<label for="multi1">Given Name</label>
+<input type="text" id="multi1" name="first-name" />
+
+<!-- ✅ Right: Only one label per input. Use additional info in a span or help text if needed -->
+<label for="multi2">First Name</label>
+<span id="multi2-help">Also called Given Name</span>
+<input
+  type="text"
+  id="multi2"
+  name="first-name"
+  aria-describedby="multi2-help"
+/>
+
+<form aria-labelledby="accessible-form-title">
+  <h2 id="accessible-form-title">Contact Us</h2>
+  <p>
+    Fill out the form below and we’ll get in touch. Fields marked with
+    <span aria-hidden="true" style="color: red">*</span> are required.
+  </p>
+
+  <!-- Name -->
+  <div>
+    <label for="name"
+      >Name <span aria-hidden="true" style="color: red">*</span></label
+    >
+    <input
+      type="text"
+      id="name"
+      name="name"
+      required
+      aria-required="true"
+      autocomplete="name"
+    />
+  </div>
+
+  <!-- Email -->
+  <div>
+    <label for="email"
+      >Email <span aria-hidden="true" style="color: red">*</span></label
+    >
+    <input
+      type="email"
+      id="email"
+      name="email"
+      required
+      aria-required="true"
+      autocomplete="email"
+    />
+  </div>
+
+  <!-- Message -->
+  <div>
+    <label for="message"
+      >Message <span aria-hidden="true" style="color: red">*</span></label
+    >
+    <textarea
+      id="message"
+      name="message"
+      rows="5"
+      required
+      aria-required="true"
+    ></textarea>
+  </div>
+
+  <!-- Accessibility Info -->
+  <div id="form-info">
+    <p>
+      If you require this form in an alternative format, please
+      <a href="/contact-support">contact support</a>.
+    </p>
+  </div>
+
+  <button type="submit">Send</button>
+</form>

@@ -1,0 +1,135 @@
+🔹 HTML & Code Issues 93. Duplicate ID 94. Invalid HTML nesting 95. Broken
+label-for connection 96. Missing form name 97. Empty button 98. Empty link 99.
+No document title update in SPA 100. Dynamic content not announced 101. Modal
+without role="dialog" 102. No focus return after modal close
+
+<!--
+Common HTML and code errors can break accessibility by confusing assistive technologies, disrupting keyboard navigation, and preventing users from understanding or interacting with the page. Below are examples and fixes for some frequent HTML & code problems:
+-->
+
+<!-- 93. Duplicate ID -->
+<!-- ❌ Bad: Two elements share the same ID; IDs must be unique on a page -->
+<label id="email-label" for="email">Email:</label>
+<input type="text" id="email" aria-labelledby="email-label" />
+<span id="email-label">Required field</span>
+
+<!-- ✅ Right: Ensure each ID is unique -->
+<label id="email-label" for="email">Email:</label>
+<input type="text" id="email" aria-labelledby="email-label required-field" />
+<span id="required-field">Required field</span>
+
+<!-- 94. Invalid HTML nesting -->
+<!-- ❌ Bad: Placing a block element inside an inline element (not allowed) -->
+<a href="#"><div>Link text</div></a>
+
+<!-- ✅ Right: Only put phrasing content inside <a> -->
+<a href="#">Link text</a>
+
+<!-- 95. Broken label-for connection -->
+<!-- ❌ Bad: Label "for" does not match any input's id -->
+<label for="username-field">Username:</label>
+<input type="text" id="user-field" />
+
+<!-- ✅ Right: The label's "for" matches the input's id -->
+<label for="username-field">Username:</label>
+<input type="text" id="username-field" />
+
+<!-- 96. Missing form name -->
+<!-- ❌ Bad: HTML forms lack a descriptive name or label for context -->
+<form>
+  <input type="text" placeholder="Search" />
+  <button type="submit">Go</button>
+</form>
+
+<!-- ✅ Right: Provide a label or a descriptive aria-label/name for the form -->
+<form aria-label="Site search">
+  <input type="text" placeholder="Search" />
+  <button type="submit">Go</button>
+</form>
+
+<!-- 97. Empty button -->
+<!-- ❌ Bad: Button with no accessible label or content -->
+<button></button>
+
+<!-- ✅ Right: Button should have descriptive text or an accessible label -->
+<button>Submit</button>
+<!-- Or if using icons only: -->
+<button aria-label="Close">
+  <svg aria-hidden="true">...</svg>
+</button>
+
+<!-- 98. Empty link -->
+<!-- ❌ Bad: Anchor tag with no text or accessible name -->
+<a href="#"></a>
+
+<!-- ✅ Right: Provide link text or an accessible name -->
+<a href="#">Read more</a>
+<!-- Or, if link uses only an icon: -->
+<a href="#" aria-label="Download file">
+  <svg aria-hidden="true">...</svg>
+</a>
+
+<!-- 99. No document title update in SPA -->
+<!-- ❌ Bad: In single-page apps, the <title> does not change on navigation -->
+<!-- (No example code as this is in JS; pages always show "My App" regardless of page) -->
+
+<!-- ✅ Right: Dynamically update the document title based on current view -->
+<!-- (Pseudo-code) -->
+<script>
+  // When navigating/routing in SPA
+  document.title = "Profile - My App";
+</script>
+
+<!-- 100. Dynamic content not announced -->
+<!-- ❌ Bad: Important updates appear visually but aren't announced by screen readers -->
+<div id="msg-area"></div>
+<!-- Later updated: -->
+<script>
+  document.getElementById("msg-area").textContent = "You have a new message!";
+  // But no ARIA live region, so screen readers may not announce
+</script>
+
+<!-- ✅ Right: Use an ARIA live region for dynamic messages -->
+<div id="msg-area" aria-live="polite"></div>
+<script>
+  document.getElementById("msg-area").textContent = "You have a new message!";
+</script>
+
+<!-- 101. Modal without role="dialog" -->
+<!-- ❌ Bad: Modal popup has no role, so screen readers don't know it's a dialog -->
+<div id="modal" style="display: block">
+  <h2>Settings</h2>
+  <!-- modal content -->
+</div>
+
+<!-- ✅ Right: Add role="dialog" and aria-modal="true" for accessibility -->
+<div
+  id="modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="settings-title"
+  style="display: block"
+>
+  <h2 id="settings-title">Settings</h2>
+  <!-- modal content -->
+</div>
+
+<!-- 102. No focus return after modal close -->
+<!-- ❌ Bad: Closing a dialog doesn't restore focus/context to the trigger element -->
+<button id="open-modal" onclick="openModal()">Open Modal</button>
+<!-- ...modal appears... -->
+<!-- When closed, nothing brings user back to #open-modal -->
+
+<!-- ✅ Right: When modal closes, move focus back to the trigger button -->
+<button id="open-modal" onclick="openModal()">Open Modal</button>
+<script>
+  function openModal() {
+    // ...show modal...
+    document.getElementById("modal").style.display = "block";
+    // ...focus modal...
+  }
+  function closeModal() {
+    document.getElementById("modal").style.display = "none";
+    document.getElementById("open-modal").focus(); // Restore focus
+  }
+</script>

@@ -1,0 +1,125 @@
+🔹 Navigation Issues 48. Duplicate link text with different destination 49.
+Vague link text ("Click here") 50. No breadcrumb navigation 51. Inconsistent
+navigation menu 52. Missing page heading 53. No sitemap 54. Pagination not
+accessible 55. No clear current page indication
+
+<!-- 48. Duplicate link text with different destination -->
+<!-- ❌ Bad: Two links with identical text go to different places -->
+<p>
+  <a href="https://news.example.com">Read more</a>
+  <a href="https://sports.example.com">Read more</a>
+</p>
+
+<!-- ✅ Right: Make link texts unique or clarify destinations -->
+<p>
+  <a href="https://news.example.com">Read more news</a>
+  <a href="https://sports.example.com">Read more sports</a>
+</p>
+
+<!-- 49. Vague link text ("Click here") -->
+<!-- ❌ Bad: Link text is vague, not descriptive -->
+<p>For our privacy policy, <a href="/privacy">click here</a>.</p>
+
+<!-- ✅ Right: Link text is clear and meaningful -->
+<p><a href="/privacy">Read our privacy policy</a>.</p>
+
+<!-- 50. No breadcrumb navigation -->
+<!-- ❌ Bad: No breadcrumbs to show page location -->
+<!-- (No breadcrumbs present) -->
+<nav aria-label="Breadcrumb" style="display: none"></nav>
+
+<!-- ✅ Right: Breadcrumb navigation provided -->
+<nav aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/">Home</a></li>
+    <li><a href="/products">Products</a></li>
+    <li aria-current="page">Laptops</li>
+  </ol>
+</nav>
+
+<!-- 51. Inconsistent navigation menu -->
+<!-- ❌ Bad: Menus look/behave differently across pages -->
+<nav>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about">About</a></li>
+  </ul>
+</nav>
+<!-- (On another page, menu is missing "About" or uses different styling) -->
+
+<!-- ✅ Right: Consistent navigation on all pages -->
+<!-- (Example: same menu everywhere) -->
+<nav>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/products">Products</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- 52. Missing page heading -->
+<!-- ❌ Bad: No <h1> heading on page, hard to know page purpose -->
+<!-- (No heading present) -->
+
+<!-- ✅ Right: Provide clear, unique heading for each page -->
+<h1>Our Products</h1>
+
+<!-- 53. No sitemap -->
+<!-- ❌ Bad: Site has no sitemap for users to find all pages -->
+<!-- (No sitemap present) -->
+
+<!-- ✅ Right: Provide a sitemap page or section -->
+<nav aria-label="Sitemap">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about">About Us</a></li>
+    <li><a href="/products">Products</a></li>
+    <li><a href="/services">Services</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- 54. Pagination not accessible -->
+<!-- ❌ Bad: Pagination uses unclear text or is not keyboard accessible -->
+<nav aria-label="Pagination">
+  <a href="?page=1">1</a>
+  <a href="?page=2">2</a>
+  <a href="?page=3">3</a>
+  <!-- No indication for current page, small click targets -->
+</nav>
+
+<!-- ✅ Right: Accessible, clear pagination -->
+<nav aria-label="Pagination">
+  <ul style="display: flex; list-style: none; padding: 0">
+    <li><a href="?page=1">1</a></li>
+    <li aria-current="page"><span>2</span></li>
+    <li><a href="?page=3">3</a></li>
+  </ul>
+</nav>
+
+<!-- 55. No clear current page indication -->
+<!-- ❌ Bad: Navigation offers no clue about which page is active -->
+<nav>
+  <ul>
+    <li><a href="/about">About</a></li>
+    <li><a href="/services">Services</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ✅ Right: Clearly indicate the current page for assistive tech & sighted users -->
+<nav>
+  <ul>
+    <li>
+      <a
+        href="/about"
+        aria-current="page"
+        style="font-weight: bold; text-decoration: underline"
+        >About</a
+      >
+    </li>
+    <li><a href="/services">Services</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+</nav>

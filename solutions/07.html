@@ -1,0 +1,128 @@
+🔹 Seizure / Animation Issues 45. Flashing content (>3 times/sec) 46. Rapid
+animation 47. No reduced motion support
+
+<!-- 45. Flashing content (>3 times/sec) -->
+<!-- ❌ Bad: Element flashes rapidly (can trigger seizures in some users) -->
+<div
+  style="
+    width: 100px;
+    height: 50px;
+    background: red;
+    animation: flash 0.2s infinite alternate;
+  "
+></div>
+<style>
+  @keyframes flash {
+    from {
+      background: red;
+    }
+    to {
+      background: yellow;
+    }
+  }
+</style>
+<p>Warning: This box flashes rapidly!</p>
+
+<!-- ✅ Right: Avoid rapid flashing (>3 times/sec), use gentle transitions or static content -->
+<div
+  style="
+    width: 100px;
+    height: 50px;
+    background: red;
+    transition: background 0.3s;
+  "
+>
+  No rapid flashing
+</div>
+<!-- OR animate at a safe rate -->
+<style>
+  @keyframes gentle-flash {
+    from {
+      background: red;
+    }
+    to {
+      background: yellow;
+    }
+  }
+  .gentle-flash {
+    animation: gentle-flash 1.5s infinite alternate;
+  }
+</style>
+<div class="gentle-flash" style="width: 100px; height: 50px">
+  Gentle color shift
+</div>
+
+<!-- 46. Rapid animation -->
+<!-- ❌ Bad: Fast, continuous animation/distracting movement -->
+<div
+  style="
+    width: 100px;
+    height: 50px;
+    background: blue;
+    position: relative;
+    animation: move 0.3s infinite alternate;
+  "
+></div>
+<style>
+  @keyframes move {
+    from {
+      left: 0;
+    }
+    to {
+      left: 80px;
+    }
+  }
+</style>
+<p>Warning: Rapid moving box!</p>
+
+<!-- ✅ Right: Minimize motion, provide user control or slower movement -->
+<div
+  style="
+    width: 100px;
+    height: 50px;
+    background: blue;
+    position: relative;
+    left: 0;
+    transition: left 1s;
+  "
+>
+  Minimal or no animation
+</div>
+
+<!-- 47. No reduced motion support -->
+<!-- ❌ Bad: Ignores user's prefers-reduced-motion setting; always animates -->
+<div
+  class="always-animate"
+  style="
+    width: 100px;
+    height: 50px;
+    background: green;
+    animation: spin 1s linear infinite;
+  "
+></div>
+<style>
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<!-- ✅ Right: Respects prefers-reduced-motion; disables animation if set -->
+<style>
+  @media (prefers-reduced-motion: reduce) {
+    .always-animate,
+    .gentle-flash,
+    .gentle-spin {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+  .gentle-spin {
+    width: 100px;
+    height: 50px;
+    background: green;
+    animation: spin 4s linear infinite;
+  }
+</style>
+<div class="gentle-spin">Spins, but stops if reduced motion</div>

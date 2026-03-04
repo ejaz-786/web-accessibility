@@ -1,0 +1,69 @@
+🔹 Predictability Issues 78. Button behaves like link 79. Link behaves like
+button 80. Context change without warning 81. Unexpected popup 82. Form
+auto-submit without notice 83. Navigation changes on focus
+
+<!--
+Predictability issues in web accessibility arise when users encounter unexpected behaviors, such as buttons acting like links, navigation changes happening without warning, or forms submitting automatically. Such unpredictability can confuse users, especially those using assistive technologies, and may lead to mistakes or frustration. Ensuring consistent, expected interactions is key to an accessible and user-friendly website.
+-->
+
+<!-- 78. Button behaves like link -->
+<!-- ❌ Bad: A button tag is used for navigation, which is confusing -->
+<button onclick="window.location = '/about'">About Us</button>
+
+<!-- ✅ Right: Use a proper link for navigation -->
+<a href="/about">About Us</a>
+
+<!-- 79. Link behaves like button -->
+<!-- ❌ Bad: An anchor tag is styled and scripted to act like a button for submitting a form -->
+<a href="#" onclick="submitForm()">Submit</a>
+
+<!-- ✅ Right: Use a button element for actions like submitting forms -->
+<button type="submit">Submit</button>
+
+<!-- 80. Context change without warning -->
+<!-- ❌ Bad: Selecting an option changed the page instantly with no notice -->
+<select onchange="window.location = this.value">
+  <option value="#">Choose a page</option>
+  <option value="/home">Home</option>
+  <option value="/contact">Contact</option>
+</select>
+
+<!-- ✅ Right: Inform users about the context change or require confirmation -->
+<form>
+  <label for="page-select">Choose a page:</label>
+  <select id="page-select" name="page">
+    <option value="#">Choose a page</option>
+    <option value="/home">Home</option>
+    <option value="/contact">Contact</option>
+  </select>
+  <button type="submit">Go</button>
+  <div id="context-note">After selection, press 'Go' to navigate.</div>
+</form>
+
+<!-- 81. Unexpected popup -->
+<!-- ❌ Bad: A popup appears without warning or prior interaction -->
+<body onload="alert('Subscribe to our newsletter!')">
+  <!-- page content -->
+</body>
+
+<!-- ✅ Right: Popups/dialogs should be triggered by user action, with context -->
+<button onclick="openDialog()">Subscribe to newsletter</button>
+<!-- Modal/dialog would be implemented here, triggered by the button -->
+
+<!-- 82. Form auto-submit without notice -->
+<!-- ❌ Bad: Form submits automatically when a field is changed, no warning -->
+<input type="text" name="search" onchange="this.form.submit()" />
+
+<!-- ✅ Right: Only submit forms on explicit user action -->
+<form>
+  <label for="search">Search:</label>
+  <input id="search" name="search" type="text" />
+  <button type="submit">Search</button>
+</form>
+
+<!-- 83. Navigation changes on focus -->
+<!-- ❌ Bad: Moving focus to a field automatically navigates away -->
+<input type="text" onfocus="window.location = '/other-page'" />
+
+<!-- ✅ Right: Navigation should require deliberate action, not just focus -->
+<input type="text" placeholder="Enter your name" />

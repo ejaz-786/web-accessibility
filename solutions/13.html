@@ -1,0 +1,91 @@
+🔹 ARIA Issues 84. Incorrect ARIA role 85. aria-hidden on focusable element 86.
+Missing aria-expanded 87. Missing aria-controls 88. Duplicate aria-label 89.
+ARIA overriding native semantics 90. Broken aria-labelledby reference 91.
+Improper aria-live usage 92. Using ARIA when native HTML available
+
+<!--
+ARIA (Accessible Rich Internet Applications) attributes help enhance accessibility for users of assistive technologies. However, incorrect use can introduce serious accessibility problems. Below are examples and fixes for common ARIA issues:
+-->
+
+<!-- 84. Incorrect ARIA role -->
+<!-- ❌ Bad: Using a role that doesn't match the element's purpose -->
+<button role="link">Go to Home</button>
+
+<!-- ✅ Right: Use the correct native element or role -->
+<a href="/home">Go to Home</a>
+<!-- Or, if a button is needed: -->
+<button type="button">Go to Home</button>
+
+<!-- 85. aria-hidden on focusable element -->
+<!-- ❌ Bad: Hiding a focusable element from assistive tech, but it's still navigable -->
+<a href="/profile" aria-hidden="true">Profile</a>
+
+<!-- ✅ Right: Don't use aria-hidden on interactive/focusable elements, or remove from tab order and accessibility tree if hidden -->
+<!-- If hiding, also remove from tab order -->
+<a href="/profile" style="display: none">Profile</a>
+<!-- Or, don't hide at all if it should be accessible -->
+
+<!-- 86. Missing aria-expanded -->
+<!-- ❌ Bad: A toggle button that controls a menu, but the state is not communicated -->
+<button id="menu-btn" aria-controls="main-menu">Menu</button>
+<ul id="main-menu" hidden>
+  <li>Home</li>
+  <li>About</li>
+</ul>
+
+<!-- ✅ Right: Add aria-expanded to communicate the menu state -->
+<button id="menu-btn" aria-controls="main-menu" aria-expanded="false">
+  Menu
+</button>
+<ul id="main-menu" hidden>
+  <li>Home</li>
+  <li>About</li>
+</ul>
+
+<!-- 87. Missing aria-controls -->
+<!-- ❌ Bad: Button opens modal but does not indicate which element it controls -->
+<button aria-expanded="true">Open Details</button>
+<div id="modal">More info here</div>
+
+<!-- ✅ Right: Use aria-controls to reference the controlled element -->
+<button aria-controls="modal" aria-expanded="true">Open Details</button>
+<div id="modal">More info here</div>
+
+<!-- 88. Duplicate aria-label -->
+<!-- ❌ Bad: Multiple elements with the same aria-label, causing ambiguity -->
+<button aria-label="Save">💾</button>
+<button aria-label="Save">✔</button>
+
+<!-- ✅ Right: Use unique, descriptive labels -->
+<button aria-label="Save changes">💾</button>
+<button aria-label="Confirm and Save">✔</button>
+
+<!-- 89. ARIA overriding native semantics -->
+<!-- ❌ Bad: Adding ARIA role to element that conflicts with native role -->
+<a href="/help" role="button">Help</a>
+
+<!-- ✅ Right: Use correct elements with their native roles -->
+<a href="/help">Help</a>
+<button type="button">Help</button>
+
+<!-- 90. Broken aria-labelledby reference -->
+<!-- ❌ Bad: aria-labelledby references a non-existent id -->
+<div aria-labelledby="header-does-not-exist">Section Content</div>
+
+<!-- ✅ Right: Reference existing IDs -->
+<h2 id="real-header">Section Title</h2>
+<div aria-labelledby="real-header">Section Content</div>
+
+<!-- 91. Improper aria-live usage -->
+<!-- ❌ Bad: Using incorrect aria-live value or missing it for dynamic updates -->
+<div id="updates">New notification!</div>
+
+<!-- ✅ Right: Use appropriate aria-live value for dynamic content -->
+<div id="updates" aria-live="polite">New notification!</div>
+
+<!-- 92. Using ARIA when native HTML available -->
+<!-- ❌ Bad: Overusing ARIA when native HTML elements already provide accessibility -->
+<div role="button" tabindex="0">Submit</div>
+
+<!-- ✅ Right: Use semantic HTML elements instead of unnecessary ARIA -->
+<button>Submit</button>

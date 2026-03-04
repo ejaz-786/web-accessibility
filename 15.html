@@ -1,0 +1,226 @@
+E. Cognitive Accessibility Issues 103. Too much content clutter 104. No clear
+instructions 105. Long paragraph without break 106. No visual hierarchy 107. Too
+many animations 108. Autoplay distractions 109. Complex navigation 110. No
+progress indicator in multi-step form 111. No confirmation after action 112.
+Unclear error recovery steps
+
+<!--
+Common cognitive accessibility issues can make websites much harder to use for people with cognitive and learning disabilities. These issues can cause confusion, overload, or frustration and hinder task completion. Below are explanations and accessible code patterns and anti-patterns for each issue.
+-->
+
+<!-- 103. Too much content clutter -->
+<!-- Too many elements, ads, popups, and distractions overwhelm users and make finding key actions difficult. -->
+
+<!-- ❌ Bad: Cluttered page with excessive unrelated elements -->
+<div>
+  <header>My Site</header>
+  <nav>...navigation...</nav>
+  <aside>Buy now!</aside>
+  <aside>More offers!</aside>
+  <section>
+    <h2>All Updates</h2>
+    <div>Ad banner</div>
+    <div>Important message</div>
+    <div>And more promotions</div>
+    <!-- and so on -->
+  </section>
+</div>
+
+<!-- ✅ Right: Uncluttered layout, clear content separation, distractions removed -->
+<div>
+  <header>My Site</header>
+  <nav>...navigation...</nav>
+  <main>
+    <h2>Latest Updates</h2>
+    <div>Important message</div>
+    <!-- focused, relevant content only -->
+  </main>
+</div>
+
+<!-- 104. No clear instructions -->
+<!-- Tasks without clear guidance or next steps confuse users, especially in forms and multi-step processes. -->
+
+<!-- ❌ Bad: Form with no instructions -->
+<form>
+  <input type="text" name="code" />
+  <button type="submit">Submit</button>
+</form>
+
+<!-- ✅ Right: Clear instruction is provided -->
+<form aria-describedby="code-instructions">
+  <div id="code-instructions">Enter the access code sent to your email.</div>
+  <input type="text" name="code" />
+  <button type="submit">Submit</button>
+</form>
+
+<!-- 105. Long paragraph without break -->
+<!-- Long blocks of unbroken text are hard to read and process, especially for people with cognitive disabilities. -->
+
+<!-- ❌ Bad: Long, unbroken paragraph -->
+<p>
+  Welcome to our platform. Here you can update your profile, change preferences,
+  manage notifications, explore features including account settings, privacy
+  options, and much more all in one place to best suit your needs and
+  preferences easily and quickly.
+</p>
+
+<!-- ✅ Right: Short paragraphs and logical breaks -->
+<p>Welcome to our platform.</p>
+<p>
+  You can update your profile, change preferences, manage notifications, and
+  explore features including account settings and privacy options.
+</p>
+<p>All features are in one place for your convenience.</p>
+
+<!-- 106. No visual hierarchy -->
+<!-- When headings, lists, and spatial/visual cues are missing, users struggle to scan and understand the layout. -->
+
+<!-- ❌ Bad: Flat text with no headings or grouping -->
+<div>
+  Update your account here. Select preferences. Change password. Set
+  notifications. Read privacy options.
+</div>
+
+<!-- ✅ Right: Clear visual structure and hierarchy -->
+<section>
+  <h2>Account Settings</h2>
+  <ul>
+    <li>Update your account</li>
+    <li>Select preferences</li>
+    <li>Change password</li>
+    <li>Set notifications</li>
+    <li>Read privacy options</li>
+  </ul>
+</section>
+
+<!-- 107. Too many animations -->
+<!-- Excessive or fast-moving animations can distract or disorient users, and even trigger vestibular disorders. -->
+
+<!-- ❌ Bad: Unnecessary, constant animations -->
+<div class="moving-banner">Welcome!</div>
+<div class="blinking-offer">50% OFF!</div>
+<style>
+  .moving-banner {
+    animation: slidein 2s infinite alternate;
+  }
+  .blinking-offer {
+    animation: blinker 1s step-start infinite;
+  }
+</style>
+
+<!-- ✅ Right: Use minimal, user-triggered or slow, non-intrusive animation -->
+<div class="static-banner">Welcome!</div>
+<div>50% OFF!</div>
+<!-- or allow users to disable animations via reduced motion preference -->
+<style>
+  @media (prefers-reduced-motion: reduce) {
+    .moving-banner,
+    .blinking-offer {
+      animation: none !important;
+    }
+  }
+</style>
+
+<!-- 108. Autoplay distractions -->
+<!-- Content like videos, audio, or sliders that play automatically can distract or annoy users and cause them to lose focus. -->
+
+<!-- ❌ Bad: Auto-playing video with sound -->
+<video src="promo.mp4" autoplay></video>
+
+<!-- ✅ Right: User-initiated playback -->
+<video src="promo.mp4" controls aria-label="Promotional video"></video>
+
+<!-- 109. Complex navigation -->
+<!-- Overly complicated or inconsistent navigation menus confuse users and hinder finding information. -->
+
+<!-- ❌ Bad: Multi-level dropdowns, hidden links, complex structure -->
+<nav>
+  <ul>
+    <li>Home</li>
+    <li>
+      Products
+      <ul>
+        <li>
+          By Category
+          <ul>
+            <li>Type A</li>
+            <li>Type B</li>
+            <!-- ... -->
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <!-- ... -->
+  </ul>
+</nav>
+
+<!-- ✅ Right: Simple, consistent navigation -->
+<nav>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/products">Products</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- 110. No progress indicator in multi-step form -->
+<!-- Without a step indicator, users can get lost in long or multi-page forms. -->
+
+<!-- ❌ Bad: Multi-step form with no indication of progress -->
+<form>
+  <!-- Step 1 -->
+  <input type="text" name="name" />
+  <button type="submit">Next</button>
+</form>
+
+<!-- ✅ Right: Step indicator is visible and clear -->
+<form aria-labelledby="form-title">
+  <h2 id="form-title">Checkout - Step 1 of 3</h2>
+  <div aria-live="polite">Step 1 of 3</div>
+  <input type="text" name="name" />
+  <button type="submit">Next</button>
+</form>
+
+<!-- 111. No confirmation after action -->
+<!-- Users can be left confused if there is no feedback after form submission or important actions. -->
+
+<!-- ❌ Bad: No UI feedback after submit -->
+<form onsubmit="return false;">
+  <input type="text" name="email" />
+  <button type="submit">Subscribe</button>
+</form>
+<!-- user submits and nothing appears -->
+
+<!-- ✅ Right: Visible, accessible confirmation message -->
+<form
+  id="subscribe-form"
+  onsubmit="
+    event.preventDefault();
+    document.getElementById('confirmation').textContent = 'Subscribed!';
+  "
+>
+  <input type="text" name="email" />
+  <button type="submit">Subscribe</button>
+</form>
+<div id="confirmation" role="status" aria-live="polite"></div>
+
+<!-- 112. Unclear error recovery steps -->
+<!-- Users may encounter errors, but without clear next steps, they're left confused and stuck. -->
+
+<!-- ❌ Bad: Error message is vague or missing and no hint is given -->
+<form>
+  <input type="password" name="pass" />
+  <button type="submit">Login</button>
+  <div class="error" style="display: block">Error.</div>
+</form>
+
+<!-- ✅ Right: Error message is descriptive and actionable -->
+<form>
+  <input type="password" name="pass" aria-describedby="password-error" />
+  <button type="submit">Login</button>
+  <div id="password-error" class="error" role="alert" style="display: block">
+    Password incorrect. Please try again or
+    <a href="/reset">reset your password</a>.
+  </div>
+</form>

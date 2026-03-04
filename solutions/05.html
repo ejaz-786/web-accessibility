@@ -1,0 +1,229 @@
+🔹 Keyboard Issues 30. Element not keyboard accessible 31. Clickable div without
+role 32. No visible focus indicator 33. Focus order incorrect 34. Focus trap
+missing in modal 35. No skip to content link 36. Dropdown not keyboard operable
+37. Custom component without keyboard support 38. Hover-only menu 39. Drag-only
+interaction 40. Keyboard trap
+
+<!-- 30. Element not keyboard accessible -->
+<!-- ❌ Bad: Custom element (e.g. <div>) not accessible via keyboard -->
+<div onclick="alert('Clicked!')">Click Me</div>
+
+<!-- ✅ Right: Use button or add tabindex and key handling for custom elements -->
+<button onclick="alert('Clicked!')">Click Me</button>
+<!-- OR for custom elements -->
+<div
+  role="button"
+  tabindex="0"
+  onclick="alert('Clicked!')"
+  onkeydown="
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.click();
+    }
+  "
+>
+  Click Me
+</div>
+
+<!-- 31. Clickable div without role -->
+<!-- ❌ Bad: Clickable <div> without ARIA role (no indication for assistive tech users) -->
+<div onclick="doSomething()">Continue</div>
+
+<!-- ✅ Right: Add appropriate ARIA role -->
+<div
+  role="button"
+  tabindex="0"
+  onclick="doSomething()"
+  onkeydown="
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.click();
+    }
+  "
+>
+  Continue
+</div>
+
+<!-- 32. No visible focus indicator -->
+<!-- ❌ Bad: CSS removes focus outline (keyboard users cannot see focus) -->
+<a href="#" style="outline: none">Home</a>
+
+<!-- ✅ Right: Visible focus indicator for active/focused item -->
+<a href="#" style="outline: 2px solid #1976d2; outline-offset: 2px"> Home </a>
+
+<!-- 33. Focus order incorrect -->
+<!-- ❌ Bad: Focus jumps around illogically (not matching visual order) -->
+<a href="#main">Main</a>
+<a href="#footer">Footer</a>
+<input type="text" tabindex="3" />
+<input type="text" tabindex="1" />
+<input type="text" tabindex="2" />
+
+<!-- ✅ Right: Logical source order and avoid tabindex > 0 -->
+<a href="#main">Main</a>
+<a href="#footer">Footer</a>
+<input type="text" />
+<input type="text" />
+<input type="text" />
+
+<!-- 34. Focus trap missing in modal -->
+<!-- ❌ Bad: Modal opens, but user can tab outside modal controls -->
+<button onclick="document.getElementById('modal').style.display = 'block'">
+  Open Modal
+</button>
+<div id="modal" style="display: none; border: 1px solid #000; padding: 1rem">
+  <input type="text" placeholder="Name" />
+  <button onclick="document.getElementById('modal').style.display = 'none'">
+    Close
+  </button>
+</div>
+
+<!-- ✅ Right: Modal traps focus inside until closed -->
+<!-- For demo: focus trap logic often requires JS; conceptually: -->
+<!-- Use appropriate libraries or script to keep focus within modal -->
+<!-- Accessible modal example (conceptual): -->
+<button onclick="openAccessibleModal()">Open Modal</button>
+<div
+  id="accessible-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="dialogTitle"
+  style="display: none; border: 1px solid #000; padding: 1rem"
+>
+  <h2 id="dialogTitle">Contact Form</h2>
+  <input type="text" placeholder="Name" />
+  <button onclick="closeAccessibleModal()">Close</button>
+</div>
+<!-- Focus trap scripts are required in production -->
+
+<!-- 35. No skip to content link -->
+<!-- ❌ Bad: No mechanism to bypass navigation (every tab starts from top) -->
+<nav>
+  <a href="#about">About</a>
+  <a href="#services">Services</a>
+</nav>
+<main id="main-content">
+  <h1>Welcome</h1>
+</main>
+
+<!-- ✅ Right: Provide "Skip to content" link as first focusable element -->
+<a
+  href="#main-content"
+  class="skip-link"
+  style="
+    position: absolute;
+    left: -999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  "
+  >Skip to main content</a
+>
+<nav>
+  <a href="#about">About</a>
+  <a href="#services">Services</a>
+</nav>
+<main id="main-content">
+  <h1>Welcome</h1>
+</main>
+<style>
+  .skip-link:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    left: auto;
+    background: #fff200;
+    padding: 0.5em;
+    z-index: 1000;
+  }
+</style>
+
+<!-- 36. Dropdown not keyboard operable -->
+<!-- ❌ Bad: Custom dropdown only works with mouse -->
+<div class="dropdown" onclick="toggleDropdown()">Menu</div>
+<ul id="dropdown-list" style="display: none">
+  <li><a href="#p1">Profile</a></li>
+  <li><a href="#s2">Settings</a></li>
+</ul>
+
+<!-- ✅ Right: Use <select> or ARIA menu pattern, or ensure keyboard accessibility -->
+<label for="profile-select">Menu</label>
+<select id="profile-select">
+  <option value="p1">Profile</option>
+  <option value="s2">Settings</option>
+</select>
+<!-- OR for custom dropdown, implement full keyboard and ARIA support -->
+
+<!-- 37. Custom component without keyboard support -->
+<!-- ❌ Bad: Custom toggle switch with no keyboard/UIs (mouse only) -->
+<div class="toggle-switch" onclick="toggleOn()">ON</div>
+
+<!-- ✅ Right: Custom component with keyboard, role, and state -->
+<div
+  role="switch"
+  aria-checked="true"
+  tabindex="0"
+  onclick="toggleOn()"
+  onkeydown="
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.click();
+    }
+  "
+>
+  ON
+</div>
+
+<!-- 38. Hover-only menu -->
+<!-- ❌ Bad: Submenu appears only on mouse hover, not accessible via keyboard -->
+<nav>
+  <ul>
+    <li>
+      <a href="#">Products</a>
+      <ul style="display: none">
+        <!-- Only shown on hover -->
+        <li><a href="#">A</a></li>
+        <li><a href="#">B</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<!-- ✅ Right: Submenu can be opened with keyboard (e.g., on focus or arrow key) -->
+<nav>
+  <ul>
+    <li tabindex="0">
+      <a href="#">Products</a>
+      <ul>
+        <li><a href="#">A</a></li>
+        <li><a href="#">B</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+<!-- Proper ARIA menubar/menu roles and JS logic required for real sites -->
+
+<!-- 39. Drag-only interaction -->
+<!-- ❌ Bad: UI only supports mouse drag to move items (no keyboard alternative) -->
+<div draggable="true">Task 1</div>
+<div draggable="true">Task 2</div>
+
+<!-- ✅ Right: UI supports drag and also keyboard arrow keys or buttons -->
+<ul>
+  <li>
+    Task 1
+    <button aria-label="Move up">⬆️</button>
+    <button aria-label="Move down">⬇️</button>
+  </li>
+  <li>
+    Task 2
+    <button aria-label="Move up">⬆️</button>
+    <button aria-label="Move down">⬇️</button>
+  </li>
+</ul>
+
+<!-- 40. Keyboard trap -->
+<!-- ❌ Bad: Focus gets trapped/can't escape from a widget -->
+<div tabindex="0" onfocus="this.focus()">Trapped element</div>
+
+<!-- ✅ Right: Focus moves normally, no unintentional traps -->
+<button>Button 1</button>
+<button>Button 2</button>
