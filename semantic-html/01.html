@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      button {
+        border: 1px solid black;
+        padding: 10px;
+        margin: 10px;
+        /* border-radius: 5px; */
+        cursor: pointer;
+        font-size: 16px;
+
+        /* transition: all 0.3s ease; */
+        &:focus {
+          outline: 1px solid red;
+          /* outline-offset: 10px; */
+        }
+      }
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        background: #000;
+        color: #fff;
+        padding: 8px;
+        z-index: 100;
+        &:focus {
+          top: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div><h1>Web Accessibility</h1></div>
+
+    // making button
+    <button onclick="alert('click me')">Click me-button</button>
+
+    <div onclick="alert('click me')">Click me-div</div>
+    <h1 tabindex="0">hello</h1>
+    <h2 tabindex="0">hello</h2>
+    <h3 tabindex="0">hello</h3>
+    <h4 tabindex="0">hello</h4>
+    <h5>hello</h5>
+    <h6 tabindex="0">hello</h6>
+    <p>hello</p>
+    <p tabindex="0">hello</p>
+    <main id="main-content">
+      <h1>Yahan se asle content shuru hai</h1>
+    </main>
+    <select name="" id="">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+    </select>
+    <input type="text" placeholder="Enter your name" />
+    <input type="password" placeholder="Enter your password" />
+    <input type="email" placeholder="Enter your email" />
+    <input type="number" placeholder="Enter your number" />
+    <input type="date" placeholder="Enter your date" />
+    <input type="time" placeholder="Enter your time" />
+    <input type="datetime-local" placeholder="Enter your datetime-local" />
+  </body>
+</html>

@@ -1,0 +1,228 @@
+🔹 Structure & Semantic Issues 12. Missing H1 13. Incorrect heading order 14.
+Skipped heading levels 15. No landmark regions (header/nav/main/footer) 16. Div
+used instead of semantic element 17. Table without
+<th>
+  18. Table header not associated 19. Layout table misuse 20. List created using
+  div instead of ul/ol 21. Missing page title
+</th>
+
+<!-- 12. Missing H1 -->
+<!-- ❌ Bad: Page without H1 heading (not accessible, lacking a clear main heading) -->
+<div>
+  <h2>Welcome to Our Site</h2>
+  <p>This is the homepage of our website.</p>
+</div>
+
+<!-- ✅ Right: Page with H1 as main heading (accessible) -->
+<h1>Welcome to Our Site</h1>
+<p>This is the homepage of our website.</p>
+
+<!-- 13. Incorrect heading order -->
+<!-- ❌ Bad: Heading levels skipped or used out of order (confusing for screen reader users) -->
+<h1>Features</h1>
+<h4>Easy to use</h4>
+<h2>Contact</h2>
+
+<!-- ✅ Right: Heading levels used in correct logical order (accessible) -->
+<h1>Features</h1>
+<h2>Easy to use</h2>
+<h2>Contact</h2>
+
+<!-- 14. Skipped heading levels -->
+<!-- ❌ Bad: Skipping from H1 to H4 (heading structure is not hierarchical) -->
+<h1>Documentation</h1>
+<h4>Installation Steps</h4>
+
+<!-- ✅ Right: Not skipping heading levels (uses H2 appropriately) -->
+<h1>Documentation</h1>
+<h2>Installation Steps</h2>
+
+<!-- 15. No landmark regions (header/nav/main/footer) -->
+<!-- ❌ Bad: Page with no landmarks, only <div>s (hard for assistive technology to navigate) -->
+<div class="header">
+  <h1>Company Name</h1>
+</div>
+<div class="content">
+  <p>About us...</p>
+</div>
+<div class="footer">
+  <p>Contact info</p>
+</div>
+
+<!-- ✅ Right: Using semantic landmark elements (header, nav, main, footer) -->
+<header>
+  <h1>Company Name</h1>
+</header>
+<nav>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+  </ul>
+</nav>
+<main>
+  <section id="about">
+    <p>About us...</p>
+  </section>
+</main>
+<footer>
+  <p>Contact info</p>
+</footer>
+
+<!-- 16. Div used instead of semantic element -->
+<!-- ❌ Bad: Using <div> for buttons or sections (no meaning to screen readers) -->
+<div class="button">Submit</div>
+<div class="section">
+  <h2>News</h2>
+  <p>Latest updates.</p>
+</div>
+
+<!-- ✅ Right: Use semantic elements like <button> and <section> -->
+<button>Submit</button>
+<section>
+  <h2>News</h2>
+  <p>Latest updates.</p>
+</section>
+
+<!-- 17. Table without <th> -->
+<!-- ❌ Bad: Data table without header cells (not accessible) -->
+<table border="1">
+  <tr>
+    <td>Name</td>
+    <td>Email</td>
+  </tr>
+  <tr>
+    <td>Priya</td>
+    <td>priya@example.com</td>
+  </tr>
+</table>
+
+<!-- ✅ Right: Table headers using <th> for clear association -->
+<table border="1">
+  <tr>
+    <th scope="col">Name</th>
+    <th scope="col">Email</th>
+  </tr>
+  <tr>
+    <td>Priya</td>
+    <td>priya@example.com</td>
+  </tr>
+</table>
+
+<!-- 18. Table header not associated -->
+<!-- ❌ Bad: Table headers not associated with data cells (missing scope attributes, confusing for screen readers) -->
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Role</th>
+  </tr>
+  <tr>
+    <td>Ravi</td>
+    <td>ravi@example.com</td>
+    <td>Admin</td>
+  </tr>
+</table>
+
+<!-- ✅ Right: Table headers with proper scope attributes -->
+<table>
+  <tr>
+    <th scope="col">Name</th>
+    <th scope="col">Email</th>
+    <th scope="col">Role</th>
+  </tr>
+  <tr>
+    <td>Ravi</td>
+    <td>ravi@example.com</td>
+    <td>Admin</td>
+  </tr>
+</table>
+
+<!-- 19. Layout table misuse -->
+<!-- ❌ Bad: Using table for layout (incorrect semantic, confusing for non-visual users) -->
+<table>
+  <tr>
+    <td>
+      <img src="pic.jpg" alt="Profile" />
+    </td>
+    <td>
+      <h2>Sunita</h2>
+      <p>Designer</p>
+    </td>
+  </tr>
+</table>
+
+<!-- ✅ Right: Use CSS for layout, not tables (use div/section as appropriate) -->
+<div style="display: flex; align-items: center">
+  <img src="pic.jpg" alt="Profile" style="margin-right: 10px" />
+  <div>
+    <h2>Sunita</h2>
+    <p>Designer</p>
+  </div>
+</div>
+
+<!-- 20. List created using div instead of ul/ol -->
+<!-- ❌ Bad: List created using <div> (no list semantics) -->
+<div>Item 1</div>
+<div>Item 2</div>
+<div>Item 3</div>
+
+<!-- ✅ Right: Use <ul> or <ol> for lists (screen readers recognize as list) -->
+<ul>
+  <li>Item 1</li>
+  <li>Item 2</li>
+  <li>Item 3</li>
+</ul>
+
+<!-- 21. Missing page title -->
+<!-- ❌ Bad: No <title> element in <head> (screen readers and browsers show untitled) -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- No title -->
+  </head>
+  <body>
+    <h1>Home</h1>
+  </body>
+</html>
+
+<!-- ✅ Right: Descriptive <title> in <head> (improves accessibility and SEO) -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Home - My Accessible Website</title>
+  </head>
+  <body>
+    <h1>Home</h1>
+  </body>
+</html>
+
+<!-- Accessible Table Example -->
+<table>
+  <caption>
+    Team Members and Roles
+  </caption>
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Role</th>
+      <th scope="col">Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Sunita Sharma</th>
+      <td>Designer</td>
+      <td><a href="mailto:sunita@example.com">sunita@example.com</a></td>
+    </tr>
+    <tr>
+      <th scope="row">Raj Patel</th>
+      <td>Developer</td>
+      <td><a href="mailto:raj@example.com">raj@example.com</a></td>
+    </tr>
+    <tr>
+      <th scope="row">Ayesha Khan</th>
+      <td>Project Manager</td>
+      <td><a href="mailto:ayesha@example.com">ayesha@example.com</a></td>
+    </tr>
+  </tbody>
+</table>

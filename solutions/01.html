@@ -1,0 +1,72 @@
+<!-- 1. Image without alt text
+
+
+2. Decorative image with unnecessary alt
+
+
+3. Icon button without accessible name -->
+
+<!-- ❌ Bad: Image without alt text (not accessible) -->
+<img src="puppy.jpg" />
+
+<!-- ✅ Right: Image with descriptive alt text (accessible) -->
+<img src="puppy.jpg" alt="A happy brown puppy sitting on the grass" />
+
+<!-- 2. Decorative image with unnecessary alt -->
+<!-- ❌ Bad: Decorative image with unnecessary alt (confuses screen readers) -->
+<img src="star.png" alt="A decorative star" />
+
+<!-- ✅ Right: Decorative image with empty alt (not announced by screen readers) -->
+<img src="star.png" alt="" />
+
+<!-- 3. Icon button without accessible name -->
+<!-- ❌ Bad: Icon button without accessible name (confuses screen readers) -->
+<button><i class="icon-search"></i></button>
+
+<!-- ✅ Right: Icon button with accessible name (accessible) -->
+<button aria-label="Search"><i class="icon-search"></i></button>
+
+<!-- 4. CAPTCHA without audio/text alternative
+
+
+5. Chart/graph without text summary
+
+
+6. SVG without title/description -->
+
+<!-- 4. CAPTCHA without audio/text alternative -->
+<!-- ❌ Bad: CAPTCHA image without audio/text alternative (not accessible) -->
+<label for="captcha-input">Enter the characters you see:</label>
+<img src="captcha.png" />
+<input id="captcha-input" type="text" />
+
+<!-- ✅ Right: CAPTCHA image with audio and text alternative (accessible) -->
+<label for="captcha-input-accessible">Enter the characters you see:</label>
+<img src="captcha.png" alt="CAPTCHA code: 4G7JK" />
+<!-- Text alternative (for users with low vision) -->
+<p>
+  If you can't see the image,
+  <a href="audio-captcha.mp3">click here to hear an audio CAPTCHA</a>.
+</p>
+<input id="captcha-input-accessible" type="text" />
+
+<!-- 5. Chart/graph without text summary -->
+<!-- ❌ Bad: Chart without text summary (not accessible) -->
+<img src="sales-chart.png" alt="Sales chart" />
+
+<!-- ✅ Right: Chart with textual summary (accessible) -->
+<img src="sales-chart.png" alt="Bar chart showing sales from Jan to June" />
+<p>From January to June, sales increased steadily from $1,000 to $5,000.</p>
+
+<!-- 6. SVG without title/description -->
+<!-- ❌ Bad: SVG without title/description (not accessible) -->
+<svg width="100" height="100">
+  <circle cx="50" cy="50" r="40" fill="red" />
+</svg>
+
+<!-- ✅ Right: SVG with title and description (accessible) -->
+<svg width="100" height="100" role="img" aria-labelledby="svgTitle svgDesc">
+  <title id="svgTitle">Red circle</title>
+  <desc id="svgDesc">A simple red circle icon</desc>
+  <circle cx="50" cy="50" r="40" fill="red" />
+</svg>

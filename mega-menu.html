@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        background: #000;
+        color: #fff;
+        padding: 8px;
+        z-index: 100;
+        &:focus {
+          top: 0;
+          outline: 1px solid red;
+          outline-offset: -3px;
+          margin: 10px;
+        }
+      }
+      .has-submenu:focus-within .mega-menu {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <header><h1>Mega Menu</h1></header>
+    <main id="main-content">
+      <nav>
+        <ul class="main-menu">
+          <li><a href="/">Home</a></li>
+
+          <li class="has-submenu">
+            <button
+              aria-haspopup="true"
+              aria-expanded="false"
+              id="products-btn"
+            >
+              Products
+            </button>
+
+            <div class="mega-menu" id="products-menu" hidden>
+              <div class="column">
+                <h3>Electronics</h3>
+                <a href="/laptops">Laptops</a>
+                <a href="/phones">Phones</a>
+              </div>
+              <div class="column">
+                <h3>Fashion</h3>
+                <a href="/shirts">Shirts</a>
+                <a href="/shoes">Shoes</a>
+              </div>
+            </div>
+          </li>
+
+          <li><a href="/about">About</a></li>
+        </ul>
+      </nav>
+    </main>
+
+    <script>
+      const menuBtn = document.querySelector("#products-btn");
+      const megaMenu = document.querySelector("#products-menu");
+
+      // 1. Toggle Function
+      menuBtn.addEventListener("click", () => {
+        const isExpanded = menuBtn.getAttribute("aria-expanded") === "true";
+        menuBtn.setAttribute("aria-expanded", !isExpanded);
+        megaMenu.hidden = isExpanded;
+
+        // Agar khul raha hai, toh pehli link par focus bhej do
+        if (!isExpanded) {
+          megaMenu.querySelector("a").focus();
+        }
+      });
+
+      // 2. Escape Key to Close
+      document.addEventListener("keydown", (e) => {
+        if (
+          e.key === "Escape" &&
+          menuBtn.getAttribute("aria-expanded") === "true"
+        ) {
+          menuBtn.setAttribute("aria-expanded", "false");
+          megaMenu.hidden = true;
+          menuBtn.focus(); // Focus wapas lana bohot zaroori hai!
+        }
+      });
+    </script>
+  </body>
+</html>
