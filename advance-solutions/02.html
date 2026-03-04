@@ -1,0 +1,133 @@
+2. Modal opens but focus stays behind overlay
+
+<!-- 
+Problem ko asaan bhaasha mein samjhaaye:
+
+React ya kisi bhi web app mein jab aap ek modal (popup) kholte hain,
+to kai baar focus us modal par nahi aata.
+Focus peeche page ke kisi button ya form element par reh jaata hai,
+ya users background ke elements interact kar sakte hain.
+Is se keyboard aur screen reader users ke liye bahut mushkil ho jaata hai:
+unhe samajh nahi aata ki naya modal open hua hai, ya woh abhi bhi background par hain.
+Isko "focus not trapped inside modal" ya "focus stays behind overlay" kehte hain.
+
+Kaise solve kare?
+
+Modal open hote hi keyboard focus ko modal container par ya pehle interactive element par transfer karo,
+aur jab tak modal band na ho tab tak focus ko modal ke andar trap rakho—
+matlab tab ya shift+tab sirf modal ke andar hi ghume.
+Modal close ho to, wapas usi trigger button par focus return karo.
+Is pattern ko "focus trap" ya "focus containment" kehte hain.
+
+-->
+
+<!-- ❌ Bad: Modal khulta hai, lekin focus ab bhi background elements (e.g., button) par hai -->
+
+<button id="open">Open Modal</button>
+
+<div
+  id="modal"
+  style="display: none; position: fixed; inset: 0; background: #0008"
+>
+  <div style="background: #fff; margin: 80px auto; padding: 2em; width: 300px">
+    <h2>Dialog</h2>
+    <input placeholder="Type here" />
+    <button id="close">Close</button>
+  </div>
+</div>
+
+<script>
+  document.getElementById("open").onclick = function () {
+    document.getElementById("modal").style.display = "block";
+    // 👎 Focus ab bhi trigger button par hi hai
+  };
+
+  document.getElementById("close").onclick = function () {
+    document.getElementById("modal").style.display = "none";
+  };
+</script>
+
+<!-- ✅ Right: Modal open hone par focus modal ke pehle input/button par jata hai, tabbing sirf modal ke andar hi hoti hai, close par wapas trigger button par focus -->
+
+<button id="open2">Open Accessible Modal</button>
+
+<div
+  id="modal2"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modalHeading"
+  style="display: none; position: fixed; inset: 0; background: #0006"
+>
+  <div style="background: #fff; margin: 80px auto; padding: 2em; width: 300px">
+    <h2 id="modalHeading">Dialog</h2>
+    <input id="modalInput" placeholder="Type here" />
+    <button id="close2">Close</button>
+  </div>
+</div>
+
+<script>
+  // Store last focused element to restore later
+  let lastFocusedElement = null;
+  const dialog = document.getElementById("modal2");
+  const focusableSelectors =
+    'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])';
+
+  document.getElementById("open2").onclick = function () {
+    // Show modal
+    dialog.style.display = "block";
+    dialog.setAttribute("tabindex", "-1");
+    lastFocusedElement = document.activeElement;
+
+    // Focus first input inside modal
+    const firstFocusable = dialog.querySelectorAll(focusableSelectors)[0];
+    if (firstFocusable) firstFocusable.focus();
+
+    // Prevent focus outside modal
+    document.addEventListener("focus", trapFocus, true);
+  };
+
+  document.getElementById("close2").onclick = function () {
+    dialog.style.display = "none";
+    document.removeEventListener("focus", trapFocus, true);
+    // Restore last focus
+    if (lastFocusedElement) lastFocusedElement.focus();
+  };
+
+  // Focus trap function
+  function trapFocus(e) {
+    if (!dialog.contains(e.target)) {
+      e.stopPropagation();
+      // Focus first focusable element in modal
+      const focusables = dialog.querySelectorAll(focusableSelectors);
+      if (focusables.length) focusables[0].focus();
+    }
+  }
+
+  // Handle Tab/Shift+Tab loop
+  dialog.addEventListener("keydown", function (e) {
+    if (e.key === "Tab") {
+      const focusables = Array.from(
+        dialog.querySelectorAll(focusableSelectors),
+      );
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    } else if (e.key === "Escape") {
+      document.getElementById("close2").click();
+    }
+  });
+</script>
+
+<!-- 
+Summary: 
+Modal ke open hote hi focus ko modal ke andar lekar aao,
+aur tab/shift+tab se focus ko us modal ke andar trap karo.
+Escape dabao to modal close ho, aur focus wapas trigger pe aaye.
+Isse keyboard aur screen reader users ke liye modal poori tarah accessible banta hai!
+-->

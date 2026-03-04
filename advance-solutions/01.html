@@ -1,0 +1,91 @@
+# 🚨 Complex Real-World Accessibility Problems
+1. Focus lost after React route change
+
+<!-- 
+Problem ko asaan bhaasha mein samjhaaye:
+
+Jab aap React app mein route (page) change karte ho, to kai baar focus kahi kho jaata hai ya fir kisi irrelevant jagah chala jaata hai. Iska matlab, screen reader users ya keyboard users ko naya content direct milta nahin, unhe manually scroll karna ya tab karna padta hai—jo tricky ho sakta hai.
+
+Yeh zyada tab hota hai jab app ka page content rerender hota hai par focus automatically main heading ya page ke start par nahi jata.
+
+Yahi accessibility problem hai: "Focus lost after React route change".
+
+Kaise solve kare?
+
+Har route change ke baad page ka main heading (ya landmark) pe programmatically focus set kar do, taki assistive tech aur keyboard users turant nayi jagah pohonch sakein.
+
+-->
+
+<!-- ❌ Bad: Focus automatically kahin nahi jata, ya previous button/element pe reh jaata hai -->
+{/* 
+  Typical React Router setup without focus management
+*/}
+import { Routes, Route, Link } from "react-router-dom";
+
+function App() {
+  return (
+    <div>
+      <nav>
+        <Link to="/home">Home</Link>
+        <Link to="/about">About</Link>
+      </nav>
+      <Routes>
+        <Route path="/home" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </div>
+  );
+}
+
+function Home() {
+  return <h1>Home Page</h1>;
+}
+function About() {
+  return <h1>About Page</h1>;
+}
+
+
+<!-- ✅ Right: Route change ke baad heading pe focus set hota hai -->
+
+import { Routes, Route, Link, useLocation } from "react-router-dom";
+import { useEffect, useRef } from "react";
+
+function App() {
+  const location = useLocation();
+  const mainHeadingRef = useRef(null);
+
+  // Jab bhi route change ho, heading pe focus karo:
+  useEffect(() => {
+    if (mainHeadingRef.current) {
+      mainHeadingRef.current.focus();
+    }
+  }, [location.pathname]);
+
+  return (
+    <div>
+      <nav>
+        <Link to="/home">Home</Link>
+        <Link to="/about">About</Link>
+      </nav>
+      <main>
+        <Routes>
+          <Route path="/home" element={<PageHeading ref={mainHeadingRef} text="Home Page" />} />
+          <Route path="/about" element={<PageHeading ref={mainHeadingRef} text="About Page" />} />
+        </Routes>
+      </main>
+    </div>
+  );
+}
+
+// PageHeading component with ref and tabIndex
+const PageHeading = React.forwardRef(function PageHeading({ text }, ref) {
+  return (
+    <h1 tabIndex="-1" ref={ref}>
+      {text}
+    </h1>
+  );
+});
+
+<!-- 
+Summary: Route change hone par hamesha page ke main heading pe focus set karo, taki keyboard aur screen reader users turant nayi jagah pahunch sakein. Isse accessibility next-level ho jaati hai, aur user experience smooth ho jaata hai.
+-->
