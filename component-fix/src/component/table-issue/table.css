@@ -1,0 +1,10 @@
+.table{
+  border-collapse: collapse;
+  width:500px;
+  font-family:sans-serif;
+}
+
+td{
+  border:1px solid #ccc;
+  padding:10px;
+}

@@ -1,0 +1,14 @@
+.radio-group{
+  font-family:sans-serif;
+}
+
+.radio{
+  padding:10px;
+  border:1px solid #ccc;
+  margin-bottom:5px;
+  cursor:pointer;
+}
+
+.radio.active{
+  background:#e6f0ff;
+}

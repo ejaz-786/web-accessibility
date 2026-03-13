@@ -1,0 +1,14 @@
+.checkbox-group{
+  font-family:sans-serif;
+}
+
+.checkbox{
+  padding:10px;
+  border:1px solid #ccc;
+  margin-bottom:5px;
+  cursor:pointer;
+}
+
+.checkbox.active{
+  background:#e6f0ff;
+}
