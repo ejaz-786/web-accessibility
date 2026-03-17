@@ -1,0 +1,45 @@
+.combo-container {
+  width: 250px;
+  position: relative;
+  font-family: Arial;
+}
+
+.combo-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+}
+
+.combo-input:focus {
+  border-color: #0070f3;
+}
+
+.combo-list {
+  position: absolute;
+  width: 100%;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 4px;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 10;
+  padding: 0;
+  list-style: none;
+}
+
+.combo-option {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.combo-option:hover {
+  background: #f5f5f5;
+}
+
+.combo-option.active {
+  background: #0070f3;
+  color: white;
+}
