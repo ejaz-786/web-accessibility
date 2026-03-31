@@ -37,7 +37,7 @@ function App() {
         {/* <AccessibleTab /> */}
         {/* <AccessibleTabs /> */}
         {/* <MenuIssue /> */}
-        {/* <AccessibleMenu /> */}
+        <AccessibleMenu />
         {/* <TableIssue /> */}
         {/* <AccessibleTable /> */}
         {/* <RadioIssue /> */}
@@ -48,7 +48,7 @@ function App() {
         {/* <AccessibleForm /> */}
         {/* <LoginForm /> */}
         {/* <AccessibleTooltip /> */}
-        <AccessibleCombobox />
+        {/* <AccessibleCombobox /> */}
       </div>
     </>
   );
