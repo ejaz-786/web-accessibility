@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Accessible Accordion (WCAG + NVDA)</title>
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+      body {
+        font-family: Arial;
+        padding: 20px;
+      }
+
+      .accordion {
+        max-width: 600px;
+        margin: auto;
+      }
+
+      .accordion-header {
+        width: 100%;
+        text-align: left;
+        padding: 15px;
+        font-size: 16px;
+        background: #f1f1f1;
+        border: 1px solid #ccc;
+        cursor: pointer;
+      }
+
+      .accordion-header:hover {
+        background: #e2e2e2;
+      }
+
+      .accordion-header:focus {
+        outline: 3px solid #005fcc;
+      }
+
+      .accordion-panel {
+        border: 1px solid #ccc;
+        border-top: none;
+        padding: 15px;
+      }
+
+      .accordion-panel a {
+        display: inline-block;
+        margin-top: 10px;
+        color: blue;
+      }
+
+      .accordion-panel a:focus {
+        outline: 2px solid orange;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>Accessible Accordion Example</h2>
+
+    <div class="accordion">
+      <!-- Item 1 -->
+      <div class="accordion-item">
+        <h3>
+          <button
+            class="accordion-header"
+            id="acc-btn-1"
+            aria-expanded="false"
+            aria-controls="acc-panel-1"
+          >
+            What is Web Accessibility?
+          </button>
+        </h3>
+
+        <div
+          id="acc-panel-1"
+          class="accordion-panel"
+          role="region"
+          aria-labelledby="acc-btn-1"
+          hidden
+        >
+          <p>
+            Web accessibility ensures that websites are usable by people with
+            disabilities.
+          </p>
+
+          <a href="#">Read more about WCAG guidelines</a>
+        </div>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="accordion-item">
+        <h3>
+          <button
+            class="accordion-header"
+            id="acc-btn-2"
+            aria-expanded="false"
+            aria-controls="acc-panel-2"
+          >
+            Why is it important?
+          </button>
+        </h3>
+
+        <div
+          id="acc-panel-2"
+          class="accordion-panel"
+          role="region"
+          aria-labelledby="acc-btn-2"
+          hidden
+        >
+          <p>
+            Accessibility improves usability for everyone and is required by law
+            in many countries.
+          </p>
+
+          <a href="#">Learn about accessibility laws</a>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="accordion-item">
+        <h3>
+          <button
+            class="accordion-header"
+            id="acc-btn-3"
+            aria-expanded="false"
+            aria-controls="acc-panel-3"
+          >
+            How to implement?
+          </button>
+        </h3>
+
+        <div
+          id="acc-panel-3"
+          class="accordion-panel"
+          role="region"
+          aria-labelledby="acc-btn-3"
+          hidden
+        >
+          <p>
+            Use semantic HTML, ARIA roles carefully, and ensure keyboard
+            navigation.
+          </p>
+
+          <a href="#">View implementation guide</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        // CLICK
+        $(".accordion-header").on("click", function () {
+          toggleAccordion($(this));
+        });
+
+        // KEYBOARD SUPPORT
+        $(".accordion-header").on("keydown", function (e) {
+          let headers = $(".accordion-header");
+          let index = headers.index(this);
+          console.log(e.key, index);
+
+          switch (e.key) {
+            case "ArrowDown":
+              e.preventDefault();
+              headers.eq(index + 1).focus();
+              break;
+
+            case "ArrowUp":
+              e.preventDefault();
+              headers.eq(index - 1).focus();
+              break;
+
+            case "Home":
+              e.preventDefault();
+              headers.first().focus();
+              break;
+
+            case "End":
+              e.preventDefault();
+              headers.last().focus();
+              break;
+
+            case "Enter":
+            case " ":
+              e.preventDefault();
+              toggleAccordion($(this));
+              break;
+          }
+        });
+
+        function toggleAccordion(button) {
+          let isExpanded = button.attr("aria-expanded") === "true";
+
+          // Close all
+          $(".accordion-header").attr("aria-expanded", "false");
+          $(".accordion-panel").attr("hidden", true);
+
+          if (!isExpanded) {
+            button.attr("aria-expanded", "true");
+
+            let panel = $("#" + button.attr("aria-controls"));
+            panel.removeAttr("hidden");
+
+            // IMPORTANT: Do NOT move focus (NVDA friendly)
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
